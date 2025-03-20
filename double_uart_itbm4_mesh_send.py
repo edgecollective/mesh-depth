@@ -3,6 +3,8 @@ import busio
 import digitalio
 import time
 
+SLEEP_INTERVAL = 10
+
 depth_trigger = digitalio.DigitalInOut(board.A1)
 depth_trigger.direction = digitalio.Direction.OUTPUT
 depth_trigger.value=False
@@ -35,11 +37,11 @@ while True:
     
     print("depth=",depth)
    
-    sendstring = str(depth)+ " mm"
+    sendstring = str(depth)
 
     print("Sending "+sendstring)
     
     uart_mesh.write(bytes(sendstring, "ascii"))
     
-    time.sleep(10)
+    time.sleep(SLEEP_INTERVAL)
 

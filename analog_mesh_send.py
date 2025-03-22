@@ -3,9 +3,13 @@ import busio
 import digitalio
 import time
 
+
+SLEEP_INTERVAL = 60
+
 depth_trigger = digitalio.DigitalInOut(board.A1)
 depth_trigger.direction = digitalio.Direction.OUTPUT
 depth_trigger.value=False
+
 
 import time
 import board
@@ -31,6 +35,6 @@ while True:
     
     uart.write(bytes(send_string, "ascii"))
 
-    time.sleep(10)
+    time.sleep(SLEEP_INTERVAL)
     
 

@@ -4,7 +4,9 @@ import digitalio
 import time
 from analogio import AnalogIn
 
-SLEEP_INTERVAL = 600 # very 10 minutes
+WAKEUP_TIME_SEC = 10 # if we're the one waking up the meshtastic node, change this to approx 6 sec or greater to give node time to wake up; if meshtastic node already powered, then this can be 0 or 1
+
+# update: we might also set this to 10 just so that people get a reading on initial boot 
 
 depth_trigger = digitalio.DigitalInOut(board.D10)
 depth_trigger.direction = digitalio.Direction.OUTPUT
@@ -13,6 +15,10 @@ depth_trigger.value=False
 done_pin = digitalio.DigitalInOut(board.D7)
 done_pin.direction = digitalio.Direction.OUTPUT
 done_pin.value=False
+
+led = digitalio.DigitalInOut(board.LED)
+led.direction = digitalio.Direction.OUTPUT
+led.value=False
 
 analog_in = AnalogIn(board.A4)
 
@@ -45,18 +51,37 @@ def get_depth_crude():
 def get_battery_voltage(pin):
     return (pin.value * 3.3) / 65536 * 2 # even voltage divider
     
-while True:
+done_pin.value=False
 
-    depth=get_depth_crude()
-    battery = get_battery_voltage(analog_in)
+# sleep 5 seconds and show it
+for i in range(0,WAKEUP_TIME_SEC):
+    led.value=True
+    time.sleep(1)
+    led.value=False
+    time.sleep(1)
     
-    print("depth=",depth)
-   
-    sendstring = str(depth)+","+str(battery)
+# now the depth sensor should be powered
 
-    print("Sending "+sendstring)
+depth=get_depth_crude()
+battery = get_battery_voltage(analog_in)
+
+print("depth=",depth)
+
+sendstring = str(depth)+","+str(battery)
+
+print("Sending "+sendstring)
+
+uart_mesh.write(bytes(sendstring, "ascii"))
+
+# 3 fast blinks, sent message to node
+for i in range(0,3):
+    led.value=True
+    time.sleep(.1)
+    led.value=False
+    time.sleep(.1)
     
-    uart_mesh.write(bytes(sendstring, "ascii"))
-    
-    time.sleep(SLEEP_INTERVAL)
+# now pull DONE
+done_pin.value=True
+
+#time.sleep(SLEEP_INTERVAL)
 

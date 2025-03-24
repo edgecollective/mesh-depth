@@ -1,4 +1,5 @@
 (fp_lib_table
   (version 7)
   (lib (name "rak19007")(type "KiCad")(uri "${KIPRJMOD}/rak19007.pretty")(options "")(descr ""))
+  (lib (name "footprints")(type "KiCad")(uri "${KIPRJMOD}/footprints")(options "")(descr ""))
 )

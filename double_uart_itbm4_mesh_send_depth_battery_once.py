@@ -4,7 +4,7 @@ import digitalio
 import time
 from analogio import AnalogIn
 
-WAKEUP_TIME_SEC = 10 # if we're the one waking up the meshtastic node, change this to approx 6 sec or greater to give node time to wake up; if meshtastic node already powered, then this can be 0 or 1
+WAKEUP_TIME_SEC = 0 # if we're the one waking up the meshtastic node, change this to approx 6 sec or greater to give node time to wake up; if meshtastic node already powered, then this can be 0 or 1
 
 # update: we might also set this to 10 just so that people get a reading on initial boot 
 

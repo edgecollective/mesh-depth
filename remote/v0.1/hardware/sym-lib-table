@@ -1,0 +1,5 @@
+(sym_lib_table
+  (version 7)
+  (lib (name "rak19007")(type "KiCad")(uri "${KIPRJMOD}/rak19007.kicad_sym")(options "")(descr ""))
+  (lib (name "sweet-p")(type "KiCad")(uri "${KIPRJMOD}/symbols/sweet-p.kicad_sym")(options "")(descr ""))
+)

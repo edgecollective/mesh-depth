@@ -3,17 +3,17 @@ import busio
 import digitalio
 import time
 
-#uart_sense = busio.UART(board.TX, board.RX, baudrate=9600)
+uart = busio.UART(board.TX, board.RX, baudrate=115200)
 
 #time.sleep(0.1)
 
-uart = busio.UART(board.D2, board.D3, baudrate=115200, timeout=0)
+#uart = busio.UART(board.A2, board.A3, baudrate=115200, timeout=0)
 
 time.sleep(.1)
 
 index = 0 
 while True:
-    sendstring = "test: "+str(index)
+    sendstring = "Test depth " +str(index)
 
     print("Sending "+sendstring)
     
@@ -21,6 +21,6 @@ while True:
 
     index=index+1
 
-    time.sleep(5)
+    time.sleep(30)
 
 

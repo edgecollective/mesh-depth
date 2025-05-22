@@ -9,6 +9,16 @@ import displayio
 from adafruit_display_text import label
 import adafruit_displayio_ssd1306
 
+from adafruit_onewire.bus import OneWireBus
+
+from adafruit_ds18x20 import DS18X20
+
+# Initialize one-wire bus on board pin D5.
+ow_bus = OneWireBus(board.D11)
+
+# Scan for sensors and grab the first one found.
+ds18 = DS18X20(ow_bus, ow_bus.scan()[0])
+
 try:
     from i2cdisplaybus import I2CDisplayBus
 except ImportError:
@@ -96,16 +106,22 @@ for i in range(0,WAKEUP_TIME_SEC):
     
 # now the depth sensor should be powered
 
-depth=get_depth_crude()
+#depth=get_depth_crude()
+
 battery = get_battery_voltage(analog_in)
 
-print("depth=",depth)
+#print("depth=",depth)
 
-ta.text="depth(mm): "+str(depth)+"\n\nbatt(V): "+str(battery)
+#ta.text="depth(mm): "+str(depth)+"\n\nbatt(V): "+str(battery)
+
+
+temperature=f"{ds18.temperature:0.3f}"
+
+ta.text="temp(C)="+temperature+"\n\nbatt(V):" + str(battery)
 
 time.sleep(2)
 
-sendstring = str(depth)+","+str(battery)
+sendstring = temperature+","+str(battery)
 
 ta.text="Sending to mesh..."
 
